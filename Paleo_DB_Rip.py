@@ -56,8 +56,9 @@ def parse_locations(web_page):
 	index_of_country = header.index("cc")
 	index_of_state = header.index("state")
 	index_of_county = header.index("county")
+	coords_list = []
 
-	#For all locations, get the lat/lon coordinates
+	#For all locations, get the lat/lon coordinates and output to list
 	for i in range(1, len(web_page) - 1):
 		entry = web_page[i].split("\"")
 		entry[:] = [x for x in entry if x != ","]
@@ -65,12 +66,19 @@ def parse_locations(web_page):
 		state = entry[index_of_state]
 		county = entry[index_of_county]
 		location = construct_location_string(county, state, country)
+		#Coords Format: (Lat, Lon)
 		coords = construct_GPS_coords(location)
+		coords_list.append(coords)
 
+	return coords_list
 
-		
-
+def output_locations(locations, dino):
+	output_file = open("dinosaur_locs/" + dino + ".txt", "w")
+	for i in range(0, len(locations)):
+		location_str = str(locations[i])
+		output_file.write(location_str + "\n")
 
 for i in range(0, len(listed_dinos)):
 	web_page = retrieve_webpage(listed_dinos[i])
 	locations = parse_locations(web_page)
+	output_locations(locations, listed_dinos[i])
