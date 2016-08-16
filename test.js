@@ -1,24 +1,17 @@
-//Dino_Map.js
-//Plot points of dinosaur findings on Google Map
-//Author: Matt Oakley
-//Date: 08/15/2016
+//asdf
 
-var count = 0;
+var selected_dinosaur;
 var map;
-var marker_array = [];
 var selected_dinos = [];
+var lats = [];
+var lons = [];
 
 function get_selection() {
-    count++;
-    var selected_dinosaur;
     var x = document.getElementById("dino_list").selectedIndex;
     var y = document.getElementById("dino_list").options;
     selected_dinosaur = y[x].text;
     selected_dinos.push(selected_dinosaur);
-
-    if (count > 1 && selected_dinosaur != selected_dinos[count - 2]){
-      clearOverlays();
-    }
+    console.log(selected_dinosaur);
 
     var request = new XMLHttpRequest();
 	  request.open("GET", "http://localhost:8080/dino/dinosaur_locs/" + selected_dinosaur + ".txt", true);
@@ -32,14 +25,15 @@ function get_selection() {
         var index_of_cparen;
         var lat;
         var lon;
-        for(var i = 0; i < lines.length - 1; i++){
-          entry = lines[i];
+        for(var line = 0; line < lines.length - 1; line++){
+          entry = lines[line];
           index_of_comma = entry.indexOf(",");
           index_of_oparen = entry.indexOf("(");
           index_of_cparen = entry.indexOf(")");
           lat = entry.slice(index_of_oparen + 1, index_of_comma);
           lon = entry.slice(index_of_comma + 2, index_of_cparen);
-          set_point(lat, lon);
+          lats.push(lat);
+          lons.push(lon);
         }
   		} 
       else {
@@ -51,28 +45,18 @@ function get_selection() {
   		console.log("Unable to load text file");
 	};
 	request.send();
+  document.getElementById("asdf").click();
+  set_points();
 }
 
-function clearOverlays() {
-  for (var i = 0; i < marker_array.length; i++ ) {
-    marker_array[i].setMap(null);
+function set_points(){
+  amount_of_coords = lats.length;
+  for (var i = 0; i < amount_of_coords; i++){
+    var latlon = new google.maps.LatLng(lats[i], lons[i]);
+    var marker = new google.maps.Marker({
+      position: latlon,
+      animation: google.maps.Animation.DROP,
+      map: map
+    });
   }
-  marker_array.length = 0;
-}
-
-function set_point(lat, lon){
-  var latlon = new google.maps.LatLng(lat, lon);
-  var marker = new google.maps.Marker({
-    position: latlon,
-    animation: google.maps.Animation.DROP,
-    map: map
-  });
-  marker_array.push(marker);
-}
-
-function initMap(){
-	map = new google.maps.Map(document.getElementById("map"), {
-		center: {lat: 10, lng: 9.5375},
-		zoom: 3
-	})
 }

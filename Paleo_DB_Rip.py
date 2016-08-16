@@ -10,10 +10,11 @@ import urllib2
 import pycountry
 import wget
 import sys
+import os.path
 import codecs
 
 # Globals #
-listed_dinos = ["Tyrannosaurus"]
+listed_dinos = ["Tyrannosaurus", "Stegosaurus"]
 
 def retrieve_webpage(dino_name):
 	#Retrieve the HTML for the specific dinosaur and return the page in string format
@@ -48,7 +49,10 @@ def construct_GPS_coords(location):
 	#Construct the lat/lon of different locations
 	geolocator = Nominatim()
 	coords = geolocator.geocode(location)
-	return (coords.latitude, coords.longitude)
+	if coords == None:
+		pass
+	else:
+		return (coords.latitude, coords.longitude)
 
 def parse_locations(web_page):
 	#Get the indexes of country code, state, and county
@@ -66,6 +70,7 @@ def parse_locations(web_page):
 		state = entry[index_of_state]
 		county = entry[index_of_county]
 		location = construct_location_string(county, state, country)
+		print location
 		#Coords Format: (Lat, Lon)
 		coords = construct_GPS_coords(location)
 		coords_list.append(coords)
@@ -73,12 +78,25 @@ def parse_locations(web_page):
 	return coords_list
 
 def output_locations(locations, dino):
-	output_file = open("dinosaur_locs/" + dino + ".txt", "w")
+	filename = "dinosaur_locs/" + dino + ".txt"
+	output_file = open(filename, "w")
 	for i in range(0, len(locations)):
 		location_str = str(locations[i])
 		output_file.write(location_str + "\n")
 
+def check_if_file_exists(dino):
+	filename = "dinosaur_locs/" + dino + ".txt"
+	if os.path.isfile(filename):
+		return 1
+	else:
+		return 0
+
 for i in range(0, len(listed_dinos)):
+	file_bool = check_if_file_exists(listed_dinos[i])
 	web_page = retrieve_webpage(listed_dinos[i])
-	locations = parse_locations(web_page)
-	output_locations(locations, listed_dinos[i])
+	if file_bool == 0:
+		locations = parse_locations(web_page)
+		output_locations(locations, listed_dinos[i])
+	else:
+		print "kek"
+		continue
