@@ -48,6 +48,7 @@ main {
 }
 
 select {
+    float: left;
     background-color: #333333;
     color: white;
     font-size: 16px;
@@ -55,4 +56,10 @@ select {
     padding-top: 5px;
     padding-bottom: 5px;
     padding-right: 5px;
+}
+
+#map {
+    padding: 20px;
+    width: 89.5%;
+    height: 750px;
 }

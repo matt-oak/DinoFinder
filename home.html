@@ -26,23 +26,31 @@
 		</nav>
 		
 	</header>
+
 	<main role = "main">
-		<B>Dinosaurs</B> <BR>
-		<select name = "Dinos" size = "10" multiple>
-			<option class = "Tyrannasaurus"> Tyrannasaurus
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-			<option> OTHER SHIT
-		</select>
+		<div id = "dinos">
+			<B>Dinosaurs</B> <button id = "asdf" type = "button" onclick = "get_selection()">Plot</button> <BR>
+			<select id = "dino_list" size = "10" multiple>
+				<option class = "Tyrannosaurus"> Tyrannosaurus
+				<option class = "Stego"> Stegosaurus
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+				<option> OTHER STUFF
+			</select>
+		</div>
+
+		<div id = "map"></div>
+		<script src="Dino_Map.js"></script>
+    	<script src="https://maps.googleapis.com/maps/api/js?key=APIKEYLULZ&callback=initMap" async defer></script>
+
 
 	</main>
 </body>
