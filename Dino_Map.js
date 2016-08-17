@@ -67,7 +67,7 @@ function set_point(lat, lon, img_file){
   var latlon = new google.maps.LatLng(lat, lon);
   var center = {lat: 10, lng: 9.5375};
 
-  var icon = {
+  var small_icon = {
     url: img_file,
     scaledSize: new google.maps.Size(30, 30),
   };
@@ -75,7 +75,7 @@ function set_point(lat, lon, img_file){
   var marker = new google.maps.Marker({
     position: latlon,
     animation: google.maps.Animation.DROP,
-    icon: icon,
+    icon: small_icon,
     map: map
   });
   marker_array.push(marker);
@@ -84,6 +84,18 @@ function set_point(lat, lon, img_file){
     map.setZoom(7);
     map.setCenter(marker.getPosition());
   });
+
+  /*map.addListener('zoom_changed', function() {
+    var zoom_level = map.getZoom();
+    if (zoom_level > 6){
+      var marker = new google.maps.Marker({
+        position: latlon,
+        icon: large_icon,
+        map: map
+      });
+      marker_array.push(marker);
+    }
+  });*/
   
 }
 
