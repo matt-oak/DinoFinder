@@ -5,6 +5,7 @@
 
 # Imports #
 from bs4 import BeautifulSoup
+from time import sleep
 from geopy.geocoders import Nominatim
 import urllib2
 import pycountry
@@ -14,7 +15,7 @@ import os.path
 import codecs
 
 # Globals #
-listed_dinos = ["Tyrannosaurus", "Stegosaurus"]
+listed_dinos = ["Tyrannosaurus", "Stegosaurus", "Velociraptorinae"]
 
 def retrieve_webpage(dino_name):
 	#Retrieve the HTML for the specific dinosaur and return the page in string format
@@ -34,8 +35,11 @@ def extract_webpage_header(web_page):
 
 def construct_location_string(county, state, cc):
 	#Convert country-code to full-name of country
-	country = pycountry.countries.get(alpha2 = cc)
-	country = str(country.name)
+	try:
+		country = pycountry.countries.get(alpha2 = cc)
+		country = str(country.name)
+	except KeyError:
+		return None
 
 	#Construct location string usable by geopy
 	if county != "":
@@ -49,6 +53,7 @@ def construct_GPS_coords(location):
 	#Construct the lat/lon of different locations
 	geolocator = Nominatim()
 	coords = geolocator.geocode(location)
+	sleep(1)
 	if coords == None:
 		pass
 	else:
