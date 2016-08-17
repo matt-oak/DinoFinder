@@ -15,7 +15,7 @@ import os.path
 import codecs
 
 # Globals #
-listed_dinos = ["Tyrannosaurus", "Stegosaurus", "Velociraptor", "Triceratops"]
+listed_dinos = ["Tyrannosaurus", "Stegosaurus", "Velociraptor", "Triceratops", "Spinosaurus"]
 
 def retrieve_webpage(dino_name):
 	#Retrieve the HTML for the specific dinosaur and return the page in string format
